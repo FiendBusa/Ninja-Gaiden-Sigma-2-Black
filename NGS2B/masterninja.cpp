@@ -7,6 +7,7 @@
 #include <vector>
 
 
+//CUSTOM SPAWN COORDINATES (BASICALLY RESTORING NG2 DELETED SPAWN POINTS)
 BattleCoords masterninjabtlCH1BattleCoords[] = {
 
        {-4.278018951f, 3.77045989f, 9.020205498f},   // START BATTLE 01
@@ -26,7 +27,7 @@ BattleCoords masterninjabtlCH1BattleCoords[] = {
         {9.224415779f, 200.0f, -4.210312366f},        // BATTLE 08
         {-17.29926109f, 204.0f, -22.24618149f}        // BATTLE 08 DISABLEs
 };
-
+//KEEPS TRACK OF CUSTOM SPAWNS NOT ORIGINALLY IN THE GAME
 BattleTracker masterninjabtlCH1Tracker[] = {
     
         {0x0000, 0x2DF0057}, // START BATTLE 01 - RIGHT AFTER RED GATE DOOR
@@ -39,6 +40,8 @@ BattleTracker masterninjabtlCH1Tracker[] = {
         {0x0000, 0x2E51D80}  // START BATTLE 08 - GLASS BREAK IS NINJA BY SAVE
 };
 
+//DISTANCE BEFORE CUSTOM SPAWN IS TRIGGERED
+//TRIGGER THRESHOLD INCREASES THE LOWER THE VALUE
 DistanceThreshold masterninjabtlCH1DistanceThreshold[] = {
         
         {20.00f}, // START BATTLE 01 - RIGHT AFTER RED GATE DOOR
