@@ -7,6 +7,9 @@
 #include "src/spawn/masterninja.h"
 #include "src/spawn/globals.h"
 
+/*Author: Fiend Busa
+* Updates: https://studio.youtube.com/channel/UCyskPAuZdVG_rUI3jDfS5vw
+*/
 
 
 
@@ -17,12 +20,14 @@ DWORD_PTR GetBaseAddress()
     return (DWORD_PTR)hModule;
 }
 
-extern "C" DWORD_PTR jmpBK = 0;
-extern "C" DWORD_PTR jmpBK2 = 0;
+
+//
+//extern "C" DWORD_PTR jmpBK = 0;
+//extern "C" DWORD_PTR jmpBK2 = 0;
 
 
 
-__attribute((naked)) void Test()
+/*__attribute((naked)) void Test()
 {
     __asm(".intel_syntax noprefix;"
         "movzx edi,byte ptr [rdx];"
@@ -35,11 +40,10 @@ __attribute((naked)) void Test()
         "mov r14d,0xA1;"
         "1:"
         "jmp qword ptr [rip + jmpBK];"
-        ".att_syntax;"
     );
-}
+}*/
 
-__attribute__((naked)) void InjectSound() {
+/*__attribute__((naked)) void InjectSound() {
     __asm__ volatile (
         ".intel_syntax noprefix;"
         
@@ -61,17 +65,16 @@ __attribute__((naked)) void InjectSound() {
         "mov [rdx+04],r9d;"
         "mov rbx,rdx;"
         "mov rax, [rcx+0x130];"
-        "jmp qword ptr [rip + jmpBK2];" // Jump to jmpBK
+        "jmp qword ptr [rip + jmpBK2];"
         "3:"
-        ".att_syntax;"
         );
-}
+}*/
 
 
-
+//clear up junk bytes? though not really needed, not sure
 bool Hook(void* hookAddress, void* myFunc, int len) {
     
-    if (len < 14) { // Minimum size for a JMP instruction in x64 is 14 bytes.
+    if (len < 14) {
         return false;
     }
 
@@ -79,9 +82,9 @@ bool Hook(void* hookAddress, void* myFunc, int len) {
     VirtualProtect(hookAddress, len, PAGE_EXECUTE_READWRITE, &oldProtect);
 
 
-    *(BYTE*)hookAddress = 0xFF; // JMP instruction opcode for x64.
-    *((BYTE*)hookAddress + 1) = 0x25; // Indirect JMP opcode.
-    *(DWORD*)((BYTE*)hookAddress + 2) = 0; // Placeholder for the address.
+    *(BYTE*)hookAddress = 0xFF;
+    *((BYTE*)hookAddress + 1) = 0x25;
+    *(DWORD*)((BYTE*)hookAddress + 2) = 0;
     *(DWORD_PTR*)((BYTE*)hookAddress + 6) = (DWORD_PTR)myFunc;
 
 
@@ -91,6 +94,7 @@ bool Hook(void* hookAddress, void* myFunc, int len) {
 }
 
 
+//JUNK HOOKING UNTIL ALL DATA IS PORTED - ADD LOGIC LATER
 DWORD WINAPI MainThread(LPVOID param) {
     
     //INJECT C BATTLE (COORDINATES)
@@ -123,16 +127,7 @@ DWORD WINAPI MainThread(LPVOID param) {
     }*/
     
     
-  
-
-    while (true) {
-        if (GetAsyncKeyState(VK_F12) & 0x8000) {
-            
-            break;
-        }
-        Sleep(100);
-    }
-    FreeLibraryAndExitThread((HMODULE)param, 0);
+    //FreeLibraryAndExitThread((HMODULE)param, 0);
 
     return 0;
 }

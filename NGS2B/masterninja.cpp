@@ -24,19 +24,19 @@ BattleCoords masterninjabtlCH1BattleCoords[] = {
         {-99.24944305f, -5.399999142f, 96.4569931f},  // BATTLE 07
         {-86.55921173f, -4.129928112f, 39.43626785f}, // BATTLE 07 DISABLE
         {9.224415779f, 200.0f, -4.210312366f},        // BATTLE 08
-        {-17.29926109f, 204.0f, -22.24618149f}        // BATTLE 08 DISABLE
+        {-17.29926109f, 204.0f, -22.24618149f}        // BATTLE 08 DISABLEs
 };
 
 BattleTracker masterninjabtlCH1Tracker[] = {
     
-    {0x0000, 0x2DF0057}, // START BATTLE 01 - RIGHT AFTER RED GATE DOOR
-    {0x0000, 0x2DF0057}, // START BATTLE 02 - AFTER 1st SAVE - GREY NINJA BOW ENCOUNTER AFTER WALL RUN (NINJA AMBUSH NEAR CHEST)
-    {0x0000, 0x2DF0057}, // START BATTLE 03 - AFTER 1st SAVE - AFTER CHEST JUMP DOWN
-    {0x0000, 0x2DF0057}, // START BATTLE 04 - AFTER 1st SAVE - 2nd CHEST
-    {0x0000, 0x2E00E0F}, // START BATTLE 05 - IS BATTLE - BEFORE 2nd SAVE
-    {0x0000, 0x2E0785F}, // START BATTLE 06 - After Bridge Before Buddah Cutscene
-    {0x0000, 0x2E0785F}, // START BATTLE 07 - FIRST LEDGE RUN AFTER BUDDAH CUTSCENE
-    {0x0000, 0x2E51D80}  // START BATTLE 08 - GLASS BREAK IS NINJA BY SAVE
+        {0x0000, 0x2DF0057}, // START BATTLE 01 - RIGHT AFTER RED GATE DOOR
+        {0x0000, 0x2DF0057}, // START BATTLE 02 - AFTER 1st SAVE - GREY NINJA BOW ENCOUNTER AFTER WALL RUN (NINJA AMBUSH NEAR CHEST)
+        {0x0000, 0x2DF0057}, // START BATTLE 03 - AFTER 1st SAVE - AFTER CHEST JUMP DOWN
+        {0x0000, 0x2DF0057}, // START BATTLE 04 - AFTER 1st SAVE - 2nd CHEST
+        {0x0000, 0x2E00E0F}, // START BATTLE 05 - IS BATTLE - BEFORE 2nd SAVE
+        {0x0000, 0x2E0785F}, // START BATTLE 06 - After Bridge Before Buddah Cutscene
+        {0x0000, 0x2E0785F}, // START BATTLE 07 - FIRST LEDGE RUN AFTER BUDDAH CUTSCENE
+        {0x0000, 0x2E51D80}  // START BATTLE 08 - GLASS BREAK IS NINJA BY SAVE
 };
 
 DistanceThreshold masterninjabtlCH1DistanceThreshold[] = {
@@ -68,6 +68,7 @@ ChapterData masterNinjaCH1CoordData = {
 
 extern "C" DWORD_PTR returnInjectCBattle = 0;
 
+//CURRENT WORK AS OF 2024-02-10
 void __attribute__((naked)) InjectCBattle() {
        
 
@@ -80,8 +81,6 @@ void __attribute__((naked)) InjectCBattle() {
         "push rbp;"
         "push r8;"
         "push r9;"
-        "xor rsi, rsi;"
-        "xor rbp, rbp;"
         "xorps xmm10, xmm10;"
          //CH1
         "lea r8,[rip+masterNinjaCH1CoordData];"
@@ -90,48 +89,121 @@ void __attribute__((naked)) InjectCBattle() {
         "add r8,0x8;"
         "mov rdi,r8;"
         "sub r8,0x10;"
-        "mov rcx,0x00;"
-        "mov rdx,0x64;"
-        "lea rcx, qword ptr [rip+baseAddress];"
-        "cmp byte ptr [rcx+0x35C421A],0x07;"
+        "lea rsi, qword ptr [rip+baseAddress];"
+        "cmp byte ptr [rsi+0x35C421A],0x06;"
         "je 1f;"
+        "jmp 2f;"
        "1:"
         "cmp rcx,rdx;"
-       // "ja 2f;"
-       // //DISTANCE THRESHOLD
-       //  "movss xmm10,[rdi+rbp*4];"
-       // "inc rbp;"
-       // //X
-       // "movss xmm5,[r8+rcx*4];"
-       // "subss xmm5,[baseAddress+0x319BC88];"
-       // "mulss xmm5, xmm5;"
-       // //inc rcx;"
-       // //Y
-       // "add rcx,0x01;"
-       // "movss xmm6,[r8+rcx*4];"
-       // "subss xmm6,[baseAddress+0x319BC84];"
-       // "mulss xmm6,xmm6;"
-       // //Z
-       // //inc rcx
-       // "add rcx,0x01;"
-       // "movss xmm7,[r8+rcx*4];"
-       // "subss xmm7,[baseAddress+0x319BC80];"
-       // "mulss xmm7,xmm7;"
-       // "addss xmm5,xmm6;"
-       // "addss xmm5,xmm7;"
-       // "sub rcx,0x02;"
-       // "movss xmm9,xmm10;"
-       // "comiss xmm5,xmm9;"
-       // "jbe cTriggerEventf;"
-       // "add rcx,0x03;"
-       // "cmp rcx,rdx;"
-       // "jl cBtlLoopStartf;"
-       // "jmp exitf;"
-       //"cTriggerEvent:"
+        "ja 2f;"
+       
+        //DISTANCE THRESHOLD
+         "movss xmm10,[rdi+rbp*4];"
+        "inc rbp;"
+        //X
+        "movss xmm5,[r8+rcx*4];"
+        "subss xmm5,[rip+baseAddress+0x319BC88];"
+        "mulss xmm5, xmm5;"
+        //inc rcx;"
+        //Y
+        "add rcx,0x01;"
+        "movss xmm6,[r8+rcx*4];"
+        "subss xmm6, [rip+baseAddress+0x319BC84];"
+        "mulss xmm6,xmm6;"
+        //Z
+        //inc rcx
+        "add rcx,0x01;"
+        "movss xmm7,[r8+rcx*4];"
+        "subss xmm7,[rip+baseAddress+0x319BC80];"
+        "mulss xmm7,xmm7;"
+        "addss xmm5,xmm6;"
+        "addss xmm5,xmm7;"
+        "sub rcx,0x02;"
+        "movss xmm9,xmm10;"
+        "comiss xmm5,xmm9;"
+        "jbe 3f;"
+        "add rcx,0x03;"
+        "cmp rcx,rdx;"
+        "jl 1b;"
+        "jmp 2f;"
+       "3:"//cTriggerEvent:
+        "xor rsi,rsi;"
+        "xor rdx,rdx;"
+        "lea rax, qword ptr [rip+baseAddress];"
+
+        //CH2
+        //cmp byte ptr [rip+baseAddress+35C421A],0x06
+        //je cTriggerEventCH2f
+
+        //CH3
+        //cmp byte ptr [rip+baseAddress+35C421A],0x08
+        //je cTriggerEventCH3f
+
+        //CH1
+      /*  "cmp rcx,0x00;"
+        "je cTriggerEvent01f;"*/
+
+        /*"cmp rcx,0x03;"
+        "je cTriggerEventsDisablef;"
+
+        "cmp rcx,0x03;"
+        "je cTriggerEvent02f;"
+
+        "mov rdx,0x02;"
+
+        "cmp rcx,0x09;"
+        "je cTriggerEventsDisablef;"
+
+        "cmp rcx,0x0C;"
+        "je cTriggerEvent03f;"
+
+        "mov rdx,0x04;"
+        "cmp rcx,0x0F;"
+        "je cTriggerEventsDisablef;"
+
+        "cmp rcx,0x12;"
+        "je cTriggerEvent04f;"
+
+        "mov rdx,0x06;"
+        "cmp rcx,0x15;"
+        "je cTriggerEventsDisablef;"
+
+
+        "cmp rcx,0x18;"
+        "je cTriggerEvent05f;"
+
+        "mov rdx,0x08;"
+        "cmp rcx,0x1B;"
+        "je cTriggerEventsDisablef;"
+
+
+        "cmp rcx,0x1E;"
+        "je cTriggerEvent06f;"
+
+        "mov rdx,0x0A;"
+        "cmp rcx,0x21;"
+        "je cTriggerEventsDisablef;"
+
+
+        "cmp rcx,0x24;"
+        "je cTriggerEvent07f;"
+
+        "mov rdx,0x0C;"
+        "cmp rcx,0x27;"
+        "je cTriggerEventsDisablef;"
+
+        "mov rdx,0x18;"
+        "cmp rcx,0x2A;"
+        "je cTriggerEvent08f;"
+
+        "mov rdx,0x0E;"
+        "cmp rcx,0x2C;"
+        "je cTriggerEventsDisablef;"*/
+
+        "jmp 2f;"
             
-            
-        
-         "pop r9;"
+       "2:"//codecbattle
+        "pop r9;"
         "pop r8;"
         "pop rbp;"
         "pop rdi;"
@@ -139,7 +211,7 @@ void __attribute__((naked)) InjectCBattle() {
         "pop rdx;"
         "pop rcx;"
                   
-        "2:"    
+       
         //ORIGINAL CODE   
         "mov edi,eax;"
         "mov [rbx],edi;"
