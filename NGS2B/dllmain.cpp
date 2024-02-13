@@ -5,7 +5,9 @@
 #include <sstream>
 #include "src/spawn/coordinates.h"
 #include "src/spawn/masterninja.h"
+#include "src/spawn/mentor.h"
 #include "src/spawn/globals.h"
+#include "src/spawn/spawn.h"
 
 /*Author: Fiend Busa
 * Updates: https://studio.youtube.com/channel/UCyskPAuZdVG_rUI3jDfS5vw
@@ -74,9 +76,9 @@ DWORD_PTR GetBaseAddress()
 //clear up junk bytes? though not really needed, not sure
 bool Hook(void* hookAddress, void* myFunc, int len) {
     
-    if (len < 14) {
+    /*if (len < 14) {
         return false;
-    }
+    }*/
 
     DWORD oldProtect;
     VirtualProtect(hookAddress, len, PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -86,9 +88,11 @@ bool Hook(void* hookAddress, void* myFunc, int len) {
     *((BYTE*)hookAddress + 1) = 0x25;
     *(DWORD*)((BYTE*)hookAddress + 2) = 0;
     *(DWORD_PTR*)((BYTE*)hookAddress + 6) = (DWORD_PTR)myFunc;
-
+   
 
     VirtualProtect(hookAddress, len, oldProtect, &oldProtect);
+
+  
 
     return true;
 }
@@ -97,16 +101,40 @@ bool Hook(void* hookAddress, void* myFunc, int len) {
 //JUNK HOOKING UNTIL ALL DATA IS PORTED - ADD LOGIC LATER
 DWORD WINAPI MainThread(LPVOID param) {
     
-    //INJECT C BATTLE (COORDINATES)
+    //INJECTCBATTLE (COORDINATES)
     baseAddress = GetBaseAddress();
     int hookLength = 16;
 
     DWORD_PTR hookAddress = baseAddress + 0x1607CA4;
     
     returnInjectCBattle = hookAddress + hookLength;
-   
 
     Hook((void*)hookAddress, InjectCBattle, hookLength);
+
+
+    //INJECTCOORDS
+    hookLength = 17;
+
+    hookAddress = baseAddress + 0x161855E;
+
+    returnInjectCoords = hookAddress + hookLength;
+
+    Hook((void*)hookAddress, InjectCoords, hookLength);
+
+    //INJECTC
+    hookLength = 15;
+
+    hookAddress = baseAddress + 0x1607A89;
+
+    returnInjectC = hookAddress + hookLength;
+
+    Hook((void*)hookAddress, InjectC, hookLength);
+
+    //FreeLibraryAndExitThread((HMODULE)param, 0);
+    
+   
+
+   
     
     /*int hookLength = 18;
 

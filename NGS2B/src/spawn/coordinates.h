@@ -4,6 +4,14 @@ struct BattleCoords {
     float z;
 };
 
+struct SpawnCoords {
+	float x;
+	float y;
+	float z;
+    float garb;
+};
+
+
 struct BattleTracker {
     unsigned int battleStatus;
     unsigned int battleTriggerOffset;
@@ -14,11 +22,12 @@ struct DistanceThreshold {
 };
 
 struct ChapterData {
-    BattleCoords* battleCoords;
-    BattleTracker* battleTracker;
-    DistanceThreshold* distanceThreshold;
+
+    BattleCoords* masterninjabtlCH1BattleCoords;
+    BattleTracker* masterninjabtlCH1Tracker;
+    DistanceThreshold* masterninjabtlCH1DistanceThreshold;
 };
 
-extern "C" ChapterData masterNinjaCH1CoordData;
 
-extern "C" BattleCoords masterninjabtlCH2[];
+
+

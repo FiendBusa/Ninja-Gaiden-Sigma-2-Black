@@ -1,8 +1,11 @@
 #pragma once
 #include <Windows.h>
 
-extern "C" DWORD_PTR returnInjectCBattle;
+
+extern "C" size_t battleCoordsSize;
+extern "C" size_t trackerSize;
 
 void InjectCBattle();
+void InjectCoords();
 
 
