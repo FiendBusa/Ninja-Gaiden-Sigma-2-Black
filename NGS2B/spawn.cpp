@@ -23,3 +23,4 @@ void __attribute__((naked)) InjectC() {
 		);
 	
 }
+

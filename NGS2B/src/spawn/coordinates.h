@@ -23,9 +23,9 @@ struct DistanceThreshold {
 
 struct ChapterData {
 
-    BattleCoords* masterninjabtlCH1BattleCoords;
-    BattleTracker* masterninjabtlCH1Tracker;
-    DistanceThreshold* masterninjabtlCH1DistanceThreshold;
+    BattleCoords* masterninjabtlCH14BattleCoords;
+    BattleTracker* masterninjabtlCH14Tracker;
+    DistanceThreshold* masterninjabtlCH14DistanceThreshold;
 };
 
 
