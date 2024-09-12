@@ -1,3 +1,5 @@
+
+
 struct BattleCoords {
     float x;
     float y;

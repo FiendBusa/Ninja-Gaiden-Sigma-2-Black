@@ -156,12 +156,15 @@
   <ItemGroup>
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="SimpleIni.h" />
     <ClInclude Include="src\spawn\mentor.h" />
     <ClInclude Include="src\spawn\spawn.h" />
     <ClInclude Include="src\spawn\globals.h" />
     <ClInclude Include="src\spawn\masterninja.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\spawn\coordinates.h" />
+    <ClInclude Include="src\spawn\ultimateninja.h" />
+    <ClInclude Include="src\spawn\warrior.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -175,6 +178,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="spawn.cpp" />
+    <ClCompile Include="ultimateninja.cpp" />
+    <ClCompile Include="warrior.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
